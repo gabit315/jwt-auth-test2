@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auth Service Test</title>
+</head>
+<body>
+  <h1>Auth Service Test</h1>
+
+  <h3>Login</h3>
+  <input id="username" placeholder="Username">
+  <input id="password" placeholder="Password" type="password">
+  <button onclick="login()">Login</button>
+
+  <h3>Refresh Token</h3>
+  <button onclick="refresh()">Refresh</button>
+
+  <h3>Logout</h3>
+  <button onclick="logout()">Logout</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    let refreshToken = "";
+
+    async function login() {
+      const res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value
+        })
+      });
+      const data = await res.json();
+      refreshToken = data.refresh_token;
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function refresh() {
+      const res = await fetch("/refresh", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function logout() {
+      const res = await fetch("/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
