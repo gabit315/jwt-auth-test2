@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const PORT = process.env.PORT || 3000;
 
 // URL существующего JWT сервиса (можно задать через переменные окружения)
-const JWT_SERVICE_URL = process.env.JWT_SERVICE_URL || "http://jwt-service:4000";
+const JWT_SERVICE_URL = process.env.JWT_SERVICE_URL || "http://jwts_jwts:5050";
 
 // Фейковая база пользователей
 const USERS = [
